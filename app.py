@@ -4,14 +4,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_session import Session
 from config import Config
 from models import User
-
+from models import db
 app = Flask(__name__)
 app.config.from_object(Config)
-
-# Initialize extensions
-db = SQLAlchemy()
-db.init_app(app)  # Initialize SQLAlchemy with the app
-Session(app)
+db.init_app(app)
 
 @app.route('/')
 def home():
