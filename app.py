@@ -13,7 +13,7 @@ db.init_app(app)
 def home():
     return "Home Page"
 
-# User Registration
+#Registration
 @app.route('/register', methods=['GET', 'POST'])
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -22,7 +22,6 @@ def register():
         email = request.form['email']
         password = request.form['password']
 
-        # Check if user already exists
         existing_user = User.query.filter_by(email=email).first()
         if existing_user:
             flash('Email is already in use. Please choose another one.', 'danger')
@@ -39,12 +38,12 @@ def register():
         except Exception as e:
             db.session.rollback()
             flash('There was an error creating the user. Please try again.', 'danger')
-            print(f"Error: {e}")  # Optional: Log the exception for debugging
+            print(f"Error: {e}")  
             return render_template('register.html')
 
     return render_template('register.html')
 
-# User Login
+#Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -62,7 +61,7 @@ def login():
 
     return render_template('login.html')
 
-# Dashboard (protected route)
+#Dashboard
 @app.route('/dashboard')
 def dashboard():
     if 'user_id' in session:
@@ -71,7 +70,7 @@ def dashboard():
         flash('You need to login first', 'danger')
         return redirect(url_for('login'))
 
-# Logout
+#Logout
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
@@ -79,8 +78,8 @@ def logout():
     flash('You have logged out!', 'success')
     return redirect(url_for('login'))
 
-# Run the app
+#Run
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()  # Creates the DB if it doesn't exist
+        db.create_all()  
     app.run(debug=True)
